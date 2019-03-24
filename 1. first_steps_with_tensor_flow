@@ -1,1 +1,77 @@
+### median_house_value : target (lable/y)
+### total_rooms : features (x)
 
+
+import math
+
+from IPython import display
+from matplotlib import cm
+from matplotlib import gridspec
+from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn import metrics
+import tensorflow as tf
+from tensorflow.python.data import Dataset
+
+tf.logging.set_verbosity(tf.logging.ERROR)
+pd.options.display.max_rows = 10
+pd.options.display.float_format = '{:.1f}'.format
+
+### Load Data
+california_housing_dataframe = pd.read_csv("https://download.mlcc.google.cn/mledu-datasets/california_housing_train.csv", sep=",")
+
+"""
+ longitude  latitude  housing_median_age  total_rooms  total_bedrooms  \
+0     -114.3      34.2                15.0       5612.0          1283.0   
+1     -114.5      34.4                19.0       7650.0          1901.0   
+2     -114.6      33.7                17.0        720.0           174.0   
+3     -114.6      33.6                14.0       1501.0           337.0   
+4     -114.6      33.6                20.0       1454.0           326.0   
+
+   population  households  median_income  median_house_value  
+0      1015.0       472.0            1.5             66900.0  
+1      1129.0       463.0            1.8             80100.0  
+2       333.0       117.0            1.7             85700.0  
+3       515.0       226.0            3.2             73400.0  
+4       624.0       262.0            1.9             65500.0  
+"""
+
+### Randomlize Data by random reindexing
+california_housing_dataframe = california_housing_dataframe.reindex(np.random.permutation(california_housing_dataframe.index))
+
+### Divid media_house_value by 1000
+california_housing_dataframe['median_house_value'] =/ 1000.0
+
+### Define and configure feature_column
+    ### Pandas single square bracket returns Series, double square bracket returns Dataframe. 
+my_feature = california_housing_dataframe[['total_rooms']]
+
+feature_columns = [tf.feature_column.numeric_column("total_rooms")]
+
+### Define lable / target
+targets = california_housing_dataframe["median_house_value"]
+
+### Use gradient descent as the optimizer for training the model
+my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0000001)
+my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimzer, 5.0)
+
+# Configure the linear regression model with feature columns and optmizer 
+linear_regressor = tf.estimator.LinearRegressor(feature_colums=feature_columns, optimizer=my_optimizer)
+
+def my_input_fn(features, targets, batch_size=1, shuffle=True, num_epochs=None):
+    """
+    Trains a linear regression model of one feature
+    
+    features: pandas DataFrame of features
+    targets: pandas DataFrame of targets
+    batch_size: Size of batches to be passed to th model
+    shuffle: whether to shuffle the data
+    num_epochs: Number of epoches for which data should be repeated. None = repeat indefinitely
+    
+    Return:
+      Tuple o (features, lables) for next data batch
+    """
+    
+    ### Co
+    
