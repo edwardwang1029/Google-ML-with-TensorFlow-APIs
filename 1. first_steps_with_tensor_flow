@@ -73,5 +73,19 @@ def my_input_fn(features, targets, batch_size=1, shuffle=True, num_epochs=None):
       Tuple o (features, lables) for next data batch
     """
     
-    ### Co
+    ### Convert pandas data into a dict of np arrays
+    features = {key: np.array(value) for key, value in dict(features).items()}
+    
+    ### {'total_rooms': array([ 555., 2649.,  388., ...,  863., 3678., 4518.])}
+    
+    # Construct a dataset
+    ds = Dataset.from_tensor_slices((features, targets))
+    
+    # Configure batching / repeating
+    ds = ds.batch(batch_size).repeat(num_epochs)
+    
+    if shuffle:
+        ds = ds.shuffle(buffer_size=10000)
+    
+    # retu
     
