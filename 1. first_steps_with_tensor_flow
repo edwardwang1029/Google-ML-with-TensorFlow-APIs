@@ -152,5 +152,24 @@ plt.show()
 
 
 
+### Wrap it into a function
 
+def train_model(learning_rate, steps, batch_size, input_feature="total_rooms")
+  """Trains a linear regression model of one feature.
+  
+    Args:
+    learning_rate: A `float`, the learning rate.
+    steps: A non-zero `int`, the total number of training steps. A training step
+      consists of a forward and backward pass using a single batch.
+    batch_size: A non-zero `int`, the batch size.
+    input_feature: A `string` specifying a column from `california_housing_dataframe`
+      to use as input feature.
+  """
+  
+  period = 10
+  steps_per_period = steps / periods
+  
+  my_feature = input_feature
+  my_feature_data = california_housing_dataframe[[my_feature]]
+  
     
