@@ -175,4 +175,9 @@ def train_model(learning_rate, steps, batch_size,
     print("Training model...")
     print("RMSE (on training data):")
     
+    training_rmse = []
+    validation_rmse = []
+    for period in range(0, periods):
+    	# Train the model, starting from the prior state.
+	
     
